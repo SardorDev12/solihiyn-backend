@@ -23,8 +23,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/', include('zikrs.urls')),
+    path('api/v1/', include('users.urls')),
     path('', RedirectView.as_view(url="api/v1/")),
-    path('api/v1/', include('registrations.urls'))
 ]
 
 if settings.DEBUG:
