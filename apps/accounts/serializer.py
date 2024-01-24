@@ -7,7 +7,7 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['password', 'username']
+        fields = '__all__'
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -22,22 +22,23 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password2 = serializers.CharField(write_only=True, required=True)
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'username', 'password', 'password2']
+        fields = ['first_name', 'last_name', 'username', 'password']
 
     def validate(self, attrs):
-        if attrs['password'] != attrs['password2']:
-            raise serializers.ValidationError(
-                {'password': 'Password fields do  not match!'}
-            )
+
+        if User.objects.filter(username=attrs['username']):
+            raise serializers.ValidationError('This user has already registered!')
+
         return attrs
 
     def create(self, validated_data):
         user = User.objects.create(
-            username=validated_data['username']
+            first_name=validated_data['first_name'],
+            last_name=validated_data['last_name'],
+            username=validated_data['username'],
         )
         user.set_password(validated_data['password'])
         user.save()
