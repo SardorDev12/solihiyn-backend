@@ -7,6 +7,7 @@ class Zikr(models.Model):
     text = models.TextField()
     meaning = models.TextField()
     count = models.IntegerField()
+    count_val = models.IntegerField(default=0)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
