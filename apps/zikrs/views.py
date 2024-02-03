@@ -37,8 +37,8 @@ class IncrementZikrCountView(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         instance = self.get_object()
 
-        if instance.count_val >= instance.count - 1:
-            instance.count_val = 0
+        if instance.count_val >= instance.count:
+            instance.count_val = 1
             instance.save()
         else:
             instance.count_val += 1
