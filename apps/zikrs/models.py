@@ -11,6 +11,7 @@ class Zikr(models.Model):
     count_val = models.IntegerField(default=0)
     created_at = models.DateTimeField(default=timezone.now)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    is_default = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.category} - {self.text}"

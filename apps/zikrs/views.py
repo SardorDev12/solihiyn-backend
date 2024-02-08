@@ -1,4 +1,5 @@
 from rest_framework import status
+from rest_framework.exceptions import PermissionDenied
 from rest_framework.generics import ListCreateAPIView
 from rest_framework.generics import RetrieveDestroyAPIView
 from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
@@ -14,10 +15,14 @@ class ZikrListCreateAPIView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Zikr.objects.filter(created_by=self.request.user)
+        user_zikrs = Zikr.objects.filter(created_by=self.request.user)
+        default_zikrs = Zikr.objects.filter(is_default=True)
+        queryset = user_zikrs | default_zikrs
+        return queryset
 
     def perform_create(self, serializer):
         serializer.save(created_by=self.request.user)
+
 
 
 class ZikrUpdateAPIView(RetrieveUpdateAPIView):
@@ -28,6 +33,11 @@ class ZikrUpdateAPIView(RetrieveUpdateAPIView):
 class ZikrDeleteAPIView(RetrieveDestroyAPIView):
     queryset = Zikr.objects.all()
     serializer_class = ZikrSerializer
+
+    def perform_destroy(self, instance):
+        if instance.is_default:
+            raise PermissionDenied("Cannot delete default Zikr.")
+        instance.delete()
 
 
 class IncrementZikrCountView(UpdateAPIView):
