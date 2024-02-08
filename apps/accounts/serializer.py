@@ -7,7 +7,7 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ['first_name', 'last_name', 'username']
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -44,3 +44,10 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
+    
+
+
+class UserProfileUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username','profile_photo']

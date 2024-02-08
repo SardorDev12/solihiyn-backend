@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import User
-from .serializer import RegisterSerializer, UserSerializer
+from .serializer import RegisterSerializer, UserSerializer, UserProfileUpdateSerializer
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
@@ -32,3 +32,4 @@ class UserLogoutAPIView(APIView):
     def get(self, request, *args, **kwargs):
         logout(request)
         return Response({'detail': 'Logged out.'}, status=status.HTTP_200_OK)
+    
