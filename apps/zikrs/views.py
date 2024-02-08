@@ -34,10 +34,7 @@ class ZikrDeleteAPIView(RetrieveDestroyAPIView):
     queryset = Zikr.objects.all()
     serializer_class = ZikrSerializer
 
-    def perform_destroy(self, instance):
-        if instance.is_default:
-            raise PermissionDenied("Cannot delete default Zikr.")
-        instance.delete()
+
 
 
 class IncrementZikrCountView(UpdateAPIView):
