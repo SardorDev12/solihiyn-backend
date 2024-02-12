@@ -5,6 +5,7 @@ from rest_framework.generics import RetrieveDestroyAPIView
 from rest_framework.generics import RetrieveUpdateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from django.db.models import Q
 
 from .models import Zikr
 from .serializers import ZikrSerializer
@@ -34,6 +35,14 @@ class ZikrDeleteAPIView(RetrieveDestroyAPIView):
     queryset = Zikr.objects.all()
     serializer_class = ZikrSerializer
 
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        if instance.is_default:
+            return Response({"message": "Default items cannot be deleted."}, status=status.HTTP_403_FORBIDDEN)
+
+        self.perform_destroy(instance)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 
