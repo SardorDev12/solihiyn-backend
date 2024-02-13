@@ -63,3 +63,19 @@ class IncrementZikrCountView(UpdateAPIView):
 
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+class ZikrCountResetView(UpdateAPIView):
+    queryset = Zikr.objects.all()
+    serializer_class = ZikrSerializer
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance.count_val > 0:
+            instance.count_val = 0
+            instance.save()
+        else:
+            return PermissionDenied
+        
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
