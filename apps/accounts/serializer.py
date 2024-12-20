@@ -44,10 +44,3 @@ class RegisterSerializer(serializers.ModelSerializer):
         user.save()
 
         return user
-    
-
-
-class UserProfileUpdateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'username','profile_photo']

@@ -23,17 +23,17 @@ CORS_ALLOW_CREDENTIALS = True
 
 INSTALLED_APPS = [
     # 'jazzmin',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.messages',
+    'django.contrib.messages',  
     'django.contrib.staticfiles',
 
     'apps.zikrs',
     'apps.accounts',
     'rest_framework',
-    'corsheaders',
     'rest_framework_simplejwt',
     'drf_yasg',
 ]

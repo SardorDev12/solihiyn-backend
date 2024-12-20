@@ -8,7 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import User
-from .serializer import RegisterSerializer, UserSerializer, UserProfileUpdateSerializer
+from .serializer import RegisterSerializer, UserSerializer
 
 
 class UserRegisterAPIView(generics.CreateAPIView):
